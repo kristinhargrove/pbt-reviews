@@ -1,32 +1,112 @@
+import styled from "styled-components";
+import Button from "../components/ui/Button";
+import {
+  StyledFormElement,
+  ControlSelect,
+  Control,
+  Controls,
+  ControlLabel,
+  FormButton,
+} from "../components/ui/StyledForm";
 
+import { Fragment } from "react";
+
+import TextField from "@mui/material/TextField";
 
 export default function createTournamentForm() {
-    return ( 
-        <form action="/api/form" method="post">
-            <label htmlFor="tournamentName">Tournament Name</label>
-            <input type="text" id="tournamentName" required />
-            <br />
-            <label htmlFor="tournamentStartDate">Tournament Start Date</label>
-            <input type="date" id="tournamentStartDate" required />
-            <br />
-            <label htmlFor="tournamentEndDate">Tournament End Date</label>
-            <input type="date" id="tournamentEndDate" required />
-            <br />
-            <label htmlFor="tournamentLocation">Location Name</label>
-            <input type="text" id="tournamentLocation" required />
-            <br />
-            <label htmlFor="tournamentAddress">Address</label>
-            <input type="textfield" id="tournamentAddress" required />
-            <br />
-            <label htmlFor="tournamentAffiliation">Tournament Type</label>
-            <input list="tournamentAffliation" required />
-                <datalist id="tournamentAffliation">
-                        <option value = "PPA" />
-                        <option value = "APP" />
-                        <option value = "Other" />   
-                </datalist>
-            <br />
-        <button type="submit">Submit</button>
-        </form>
-    )
+  return (
+    <Fragment>
+      <Title>Create Tournament</Title>
+      <StyledFormElement action="/api/form" method="post">
+        <Control>
+          <ControlLabel>Name</ControlLabel>
+          <TextField
+            id="outlined-basic"
+            //onChange={emailInputHandler}
+            variant="outlined"
+            //inputRef={emailInputRef}
+            fullWidth
+            //error={emailError}
+            //helperText={emailError ? "Email cannot be empty" : " "}
+            label="Enter the tournament name"
+          />
+        </Control>
+      </StyledFormElement>
+      <StyledFormElement action="/api/form" method="post">
+        <Control>
+          <ControlLabel>City</ControlLabel>
+          <TextField
+            id="outlined-basic"
+            //onChange={emailInputHandler}
+            variant="outlined"
+            //inputRef={emailInputRef}
+            fullWidth
+            //error={emailError}
+            //helperText={emailError ? "Email cannot be empty" : " "}
+            label="Atlanta"
+          />
+        </Control>
+      </StyledFormElement>
+      <StyledFormElement action="/api/form" method="post">
+        <Control>
+          <ControlLabel>State</ControlLabel>
+          <TextField
+            id="outlined-basic"
+            //onChange={emailInputHandler}
+            variant="outlined"
+            //inputRef={emailInputRef}
+            fullWidth
+            //error={emailError}
+            //helperText={emailError ? "Email cannot be empty" : " "}
+            label="Georgia"
+          />
+        </Control>
+      </StyledFormElement>
+
+      <StyledFormElement action="/api/form" method="post">
+        <Control>
+          <ControlLabel>Address</ControlLabel>
+          <TextField
+            id="outlined-basic"
+            //onChange={emailInputHandler}
+            variant="outlined"
+            //inputRef={emailInputRef}
+            fullWidth
+            //error={emailError}
+            //helperText={emailError ? "Email cannot be empty" : " "}
+            label="Georgia"
+          />
+        </Control>
+      </StyledFormElement>
+
+      <label htmlFor="tournamentStartDate">Tournament Start Date</label>
+      <input type="date" id="tournamentStartDate" required />
+      <br />
+      <label htmlFor="tournamentEndDate">Tournament End Date</label>
+      <input type="date" id="tournamentEndDate" required />
+      <br />
+
+      <StyledFormElement>
+        <Controls>
+          <Control>
+            <ControlLabel htmlFor="roleFilter">Type</ControlLabel>
+            <ControlSelect id="type">
+              <option value="PPA">PPA</option>
+              <option value="APP">APP</option>
+              <option value="Other">Other</option>
+            </ControlSelect>
+          </Control>
+        </Controls>
+        <FormButton>Submit</FormButton>
+      </StyledFormElement>
+
+      <br />
+    </Fragment>
+  );
 }
+
+const Title = styled.h1`
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  text-align: center;
+`;
