@@ -9,14 +9,19 @@ import {
   FormButton,
 } from "../components/ui/StyledForm";
 
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import TextField from "@mui/material/TextField";
 
 export default function createTournamentForm() {
+  const [tournamentStartDate, setTournamentStartDate] = useState();
+  const [tournamentEndDate, setTournamentEndDate] = useState();
   return (
     <Fragment>
       <Title>Create Tournament</Title>
+
       <StyledFormElement action="/api/form" method="post">
         <Control>
           <ControlLabel>Name</ControlLabel>
@@ -79,12 +84,36 @@ export default function createTournamentForm() {
         </Control>
       </StyledFormElement>
 
-      <label htmlFor="tournamentStartDate">Tournament Start Date</label>
-      <input type="date" id="tournamentStartDate" required />
-      <br />
-      <label htmlFor="tournamentEndDate">Tournament End Date</label>
-      <input type="date" id="tournamentEndDate" required />
-      <br />
+      <StyledFormElement>
+        <Control>
+          <ControlLabel>Start Date</ControlLabel>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Tournament Start Date"
+              value={tournamentStartDate}
+              onChange={(newValue) => {
+                setTournamentStartDate(newValue);
+              }}
+              renderInput={(params) => <TextField fullWidth {...params} />}
+            />
+          </LocalizationProvider>
+        </Control>
+      </StyledFormElement>
+      <StyledFormElement>
+        <Control>
+          <ControlLabel>End Date</ControlLabel>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Tournament End Date"
+              value={tournamentEndDate}
+              onChange={(newValue) => {
+                setTournamentEndDate(newValue);
+              }}
+              renderInput={(params) => <TextField fullWidth {...params} />}
+            />
+          </LocalizationProvider>
+        </Control>
+      </StyledFormElement>
 
       <StyledFormElement>
         <Controls>
