@@ -43,7 +43,7 @@ export default function createTournamentForm() {
             fullWidth
             //error={emailError}
             //helperText={emailError ? "Email cannot be empty" : " "}
-            label="Atlanta"
+            label="Enter Tournament City"
           />
         </Control>
       </StyledFormElement>
@@ -58,7 +58,7 @@ export default function createTournamentForm() {
             fullWidth
             //error={emailError}
             //helperText={emailError ? "Email cannot be empty" : " "}
-            label="Georgia"
+            label="Enter Tournament State"
           />
         </Control>
       </StyledFormElement>
@@ -74,7 +74,7 @@ export default function createTournamentForm() {
             fullWidth
             //error={emailError}
             //helperText={emailError ? "Email cannot be empty" : " "}
-            label="Georgia"
+            label="Enter Tournament Address"
           />
         </Control>
       </StyledFormElement>
