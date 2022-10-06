@@ -14,15 +14,17 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import TextField from "@mui/material/TextField";
 
-export default function createTournamentForm() {
+export default function createTournamentForm(props) {
   const [tournamentStartDate, setTournamentStartDate] = useState();
   const [tournamentEndDate, setTournamentEndDate] = useState();
   const [nameError, setNameError] = useState(false);
   const [cityError, setCityError] = useState(false);
+  const [stateError, setStateError] = useState(false);
 
   const typeInputRef = useRef();
   const nameInputRef = useRef();
   const cityInputRef = useRef();
+  const stateInputRef = useRef();
 
   async function submitHandler() {
     console.log("got in here");
@@ -46,6 +48,16 @@ export default function createTournamentForm() {
       setCityError(true);
     } else {
       setCityError(false);
+    }
+  }
+
+  function stateInputHandler() {
+    console.log("changed state value");
+    console.log(stateInputRef.current.value);
+    if (stateInputRef.current && stateInputRef.current.value === "") {
+      setStateError(true);
+    } else {
+      setStateError(false);
     }
   }
 
@@ -83,16 +95,16 @@ export default function createTournamentForm() {
           />
         </Control>
       </StyledFormElement>
-      <StyledFormElement action="/api/form" method="post">
+      <StyledFormElement>
         <Control>
           <ControlLabel>State</ControlLabel>
           <TextField
             id="outlined-basic"
-            //onChange={emailInputHandler}
+            onChange={stateInputHandler}
             variant="outlined"
-            //inputRef={emailInputRef}
+            inputRef={stateInputRef}
             fullWidth
-            //error={emailError}
+            error={stateError}
             //helperText={emailError ? "Email cannot be empty" : " "}
             label="Enter Tournament State"
           />
