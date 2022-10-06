@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Button from "../components/ui/Button";
 import {
   StyledFormElement,
   ControlSelect,
@@ -9,7 +8,7 @@ import {
   FormButton,
 } from "../components/ui/StyledForm";
 
-import { Fragment, useState } from "react";
+import { Fragment, useState, useRef } from "react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -18,35 +17,67 @@ import TextField from "@mui/material/TextField";
 export default function createTournamentForm() {
   const [tournamentStartDate, setTournamentStartDate] = useState();
   const [tournamentEndDate, setTournamentEndDate] = useState();
+  const [nameError, setNameError] = useState(false);
+  const [cityError, setCityError] = useState(false);
+
+  const typeInputRef = useRef();
+  const nameInputRef = useRef();
+  const cityInputRef = useRef();
+
+  async function submitHandler() {
+    console.log("got in here");
+    console.log("Krissy boo");
+  }
+
+  function nameInputHandler() {
+    console.log("changed value");
+    console.log(nameInputRef.current.value);
+    if (nameInputRef.current && nameInputRef.current.value === "") {
+      setNameError(true);
+    } else {
+      setNameError(false);
+    }
+  }
+
+  function cityInputHandler() {
+    console.log("changed value");
+    console.log(cityInputRef.current.value);
+    if (cityInputRef.current && cityInputRef.current.value === "") {
+      setCityError(true);
+    } else {
+      setCityError(false);
+    }
+  }
+
   return (
     <Fragment>
       <Title>Create Tournament</Title>
 
-      <StyledFormElement action="/api/form" method="post">
+      <StyledFormElement>
         <Control>
           <ControlLabel>Name</ControlLabel>
           <TextField
             id="outlined-basic"
-            //onChange={emailInputHandler}
             variant="outlined"
-            //inputRef={emailInputRef}
             fullWidth
-            //error={emailError}
-            //helperText={emailError ? "Email cannot be empty" : " "}
+            onChange={nameInputHandler}
+            inputRef={nameInputRef}
+            error={nameError}
+            //helperText={nameError ? "Name cannot be empty" : " "}
             label="Enter the tournament name"
           />
         </Control>
       </StyledFormElement>
-      <StyledFormElement action="/api/form" method="post">
+      <StyledFormElement>
         <Control>
           <ControlLabel>City</ControlLabel>
           <TextField
             id="outlined-basic"
-            //onChange={emailInputHandler}
+            onChange={cityInputHandler}
             variant="outlined"
-            //inputRef={emailInputRef}
+            inputRef={cityInputRef}
             fullWidth
-            //error={emailError}
+            error={cityError}
             //helperText={emailError ? "Email cannot be empty" : " "}
             label="Enter Tournament City"
           />
@@ -115,11 +146,11 @@ export default function createTournamentForm() {
         </Control>
       </StyledFormElement>
 
-      <StyledFormElement>
+      <StyledFormElement onSubmit={submitHandler}>
         <Controls>
           <Control>
             <ControlLabel htmlFor="roleFilter">Type</ControlLabel>
-            <ControlSelect id="type">
+            <ControlSelect ref={typeInputRef} id="type">
               <option value="PPA">PPA</option>
               <option value="APP">APP</option>
               <option value="Other">Other</option>
