@@ -20,11 +20,13 @@ export default function createTournamentForm(props) {
   const [nameError, setNameError] = useState(false);
   const [cityError, setCityError] = useState(false);
   const [stateError, setStateError] = useState(false);
+  const [addressError, setAddressError] = useState(false);
 
   const typeInputRef = useRef();
   const nameInputRef = useRef();
   const cityInputRef = useRef();
   const stateInputRef = useRef();
+  const addressInputRef = useRef();
 
   async function submitHandler() {
     console.log("got in here");
@@ -58,6 +60,16 @@ export default function createTournamentForm(props) {
       setStateError(true);
     } else {
       setStateError(false);
+    }
+  }
+
+  function addressInputHandler() {
+    console.log("changed address value");
+    console.log(addressInputRef.current.value);
+    if (addressInputRef.current && addressInputRef.current.value === "") {
+      setAddressError(true);
+    } else {
+      setAddressError(false);
     }
   }
 
@@ -116,11 +128,11 @@ export default function createTournamentForm(props) {
           <ControlLabel>Address</ControlLabel>
           <TextField
             id="outlined-basic"
-            //onChange={emailInputHandler}
+            onChange={addressInputHandler}
             variant="outlined"
-            //inputRef={emailInputRef}
+            inputRef={addressInputRef}
             fullWidth
-            //error={emailError}
+            error={addressError}
             //helperText={emailError ? "Email cannot be empty" : " "}
             label="Enter Tournament Address"
           />
