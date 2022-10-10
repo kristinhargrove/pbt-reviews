@@ -33,6 +33,11 @@ export default function createTournamentForm(props) {
     console.log("Krissy boo");
   }
 
+  async function handleClick() {
+    console.log("Submit form and make api call");
+    console.log("Krissy boo");
+  }
+
   function nameInputHandler() {
     console.log("changed value");
     console.log(nameInputRef.current.value);
@@ -154,6 +159,7 @@ export default function createTournamentForm(props) {
           </LocalizationProvider>
         </Control>
       </StyledFormElement>
+
       <StyledFormElement>
         <Control>
           <ControlLabel>End Date</ControlLabel>
@@ -181,10 +187,11 @@ export default function createTournamentForm(props) {
             </ControlSelect>
           </Control>
         </Controls>
-        <FormButton>Submit</FormButton>
       </StyledFormElement>
 
-      <br />
+      <SubmitButtonContainer>
+        <FormButton onClick={handleClick}>Submit</FormButton>
+      </SubmitButtonContainer>
     </Fragment>
   );
 }
@@ -193,4 +200,11 @@ const Title = styled.h1`
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   text-align: center;
+`;
+
+const SubmitButtonContainer = styled.div`
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  margin-top: 25px;
 `;
