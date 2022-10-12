@@ -52,14 +52,22 @@ export default function createTournamentForm(props) {
   const stateInputRef = useRef();
   const addressInputRef = useRef();
 
-  async function submitHandler() {
-    console.log("got in here");
-    console.log("Krissy boo");
-  }
-
-  async function handleClick() {
+  async function handleFormSubmit() {
     console.log("Submit form and make api call");
     console.log("Krissy boo");
+
+    if (nameError || cityError || stateError) {
+      return;
+    }
+
+    const tournament = {
+      name: nameInputRef.current.value,
+      city: cityInputRef.current.value,
+      state: stateInputRef.current.value
+    }
+
+    console.log(tournament);
+    await createTournament(tournament);
   }
 
   function nameInputHandler() {
@@ -204,7 +212,7 @@ export default function createTournamentForm(props) {
         </Control>
       </StyledFormElement>
 
-      <StyledFormElement onSubmit={submitHandler}>
+      <StyledFormElement>
         <Controls>
           <Control>
             <ControlLabel htmlFor="roleFilter">Type</ControlLabel>
@@ -218,7 +226,7 @@ export default function createTournamentForm(props) {
       </StyledFormElement>
 
       <SubmitButtonContainer>
-        <FormButton onClick={handleClick}>Submit</FormButton>
+        <FormButton onClick={handleFormSubmit}>Submit</FormButton>
       </SubmitButtonContainer>
     </Fragment>
   );
