@@ -14,6 +14,30 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import TextField from "@mui/material/TextField";
 
+export async function createTournament(tournament) {
+  console.log("calling create tournament");
+  try {
+    const response = await fetch("/api/tournament/createTournament", {
+      method: "POST",
+      body: JSON.stringify(tournament),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    console.log("create post response yo");
+    console.log(data);
+
+    if (!response.ok) {
+      throw new Error(data.message || "Something went wrong!");
+    }
+  } catch (error) {
+    alert(error);
+  }
+}
+
 export default function createTournamentForm(props) {
   const [tournamentStartDate, setTournamentStartDate] = useState();
   const [tournamentEndDate, setTournamentEndDate] = useState();
@@ -77,6 +101,10 @@ export default function createTournamentForm(props) {
       setAddressError(false);
     }
   }
+
+  const pbServiceUrl = process.env.pbServiceUrl;
+  console.log("backend");
+  console.log(pbServiceUrl);
 
   return (
     <Fragment>
