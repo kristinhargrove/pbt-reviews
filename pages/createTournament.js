@@ -14,6 +14,30 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import TextField from "@mui/material/TextField";
 
+export async function createTournament(tournament) {
+  console.log("calling create tournament");
+  try {
+    const response = await fetch("/api/tournament/createTournament", {
+      method: "POST",
+      body: JSON.stringify(tournament),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    console.log("create post response yo");
+    console.log(data);
+
+    if (!response.ok) {
+      throw new Error(data.message || "Something went wrong!");
+    }
+  } catch (error) {
+    alert(error);
+  }
+}
+
 export default function createTournamentForm(props) {
   const [tournamentStartDate, setTournamentStartDate] = useState();
   const [tournamentEndDate, setTournamentEndDate] = useState();
@@ -28,14 +52,22 @@ export default function createTournamentForm(props) {
   const stateInputRef = useRef();
   const addressInputRef = useRef();
 
-  async function submitHandler() {
-    console.log("got in here");
-    console.log("Krissy boo");
-  }
-
-  async function handleClick() {
+  async function handleFormSubmit() {
     console.log("Submit form and make api call");
     console.log("Krissy boo");
+
+    if (nameError || cityError || stateError) {
+      return;
+    }
+
+    const tournament = {
+      name: nameInputRef.current.value,
+      city: cityInputRef.current.value,
+      state: stateInputRef.current.value
+    }
+
+    console.log(tournament);
+    await createTournament(tournament);
   }
 
   function nameInputHandler() {
@@ -176,7 +208,7 @@ export default function createTournamentForm(props) {
         </Control>
       </StyledFormElement>
 
-      <StyledFormElement onSubmit={submitHandler}>
+      <StyledFormElement>
         <Controls>
           <Control>
             <ControlLabel htmlFor="roleFilter">Type</ControlLabel>
@@ -190,7 +222,7 @@ export default function createTournamentForm(props) {
       </StyledFormElement>
 
       <SubmitButtonContainer>
-        <FormButton onClick={handleClick}>Submit</FormButton>
+        <FormButton onClick={handleFormSubmit}>Submit</FormButton>
       </SubmitButtonContainer>
     </Fragment>
   );
