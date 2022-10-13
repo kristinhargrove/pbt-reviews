@@ -51,7 +51,6 @@ export default function createTournamentForm(props) {
   const cityInputRef = useRef();
   const stateInputRef = useRef();
   const addressInputRef = useRef();
-  const startDateRef = useRef();
 
   async function handleFormSubmit() {
     console.log("Submit form and make api call");
@@ -67,7 +66,8 @@ export default function createTournamentForm(props) {
       state: stateInputRef.current.value,
       address: addressInputRef.current.value,
       type: typeInputRef.current.value,
-      startDate: tournamentStartDate["$d"]
+      startDate: tournamentStartDate["$d"],
+      endDate: tournamentEndDate["$d"]
     };
 
     console.log(tournament);
