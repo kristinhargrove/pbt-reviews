@@ -3,7 +3,7 @@ async function handler(req, res) {
     return;
   }
   const tournamentData = req.body;
-  const { name, city, state } = tournamentData;
+  const { name, city, state, address, startDate } = tournamentData;
 
   const pbServiceUrl = process.env.pbServiceUrl;
 
@@ -22,7 +22,9 @@ async function handler(req, res) {
     body: JSON.stringify({
       name,
       city,
-      state
+      state,
+      address,
+      startDate
     }), // body data type must match "Content-Type" header
   });
   const createdTournament = await createTournamentResponse.json();
