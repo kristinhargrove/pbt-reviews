@@ -1,9 +1,11 @@
 async function handler(req, res) {
-  if (req.method !== "POST") { //saying if it's not a post then just ignore it bc to creat tournament it must be a post
+  if (req.method !== "POST") {
+    //saying if it's not a post then just ignore it bc to creat tournament it must be a post
     return;
   }
   const tournamentData = req.body;
-  const { name, city, state, address, startDate, endDate } = tournamentData;
+  const { name, city, state, address, startDate, endDate, type } =
+    tournamentData;
 
   const pbServiceUrl = process.env.pbServiceUrl;
 
@@ -25,16 +27,15 @@ async function handler(req, res) {
       state,
       address,
       startDate,
-      endDate
+      endDate,
+      type,
     }), // body data type must match "Content-Type" header
   });
   const createdTournament = await createTournamentResponse.json();
   console.log("created tournament");
   console.log(createdTournament);
 
-  res
-    .status(201)
-    .json(createdTournament);
+  res.status(201).json(createdTournament);
 }
 
 export default handler;
