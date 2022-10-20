@@ -18,6 +18,7 @@
     "@mui/x-date-pickers": "^5.0.3",
     "dayjs": "^1.11.5",
     "moment": "^2.29.4",
+    "mui-address-autocomplete": "^2.2.1",
     "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",

@@ -4,7 +4,7 @@ async function handler(req, res) {
     return;
   }
   const tournamentData = req.body;
-  const { name, city, state, address, startDate, endDate, type } =
+  const { name, city, state, country, address, startDate, endDate, type } =
     tournamentData;
 
   const pbServiceUrl = process.env.pbServiceUrl;
@@ -25,6 +25,7 @@ async function handler(req, res) {
       name,
       city,
       state,
+      country,
       address,
       startDate,
       endDate,

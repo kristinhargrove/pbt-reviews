@@ -13,9 +13,20 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import TextField from "@mui/material/TextField";
+import dynamic from "next/dynamic";
+const MyAddressAutocomplete = dynamic(
+  () => import("../components/ui/AddressAutocomplete"),
+  {
+    ssr: false,
+  }
+);
+
+//import AddressAutocomplete from "mui-address-autocomplete";
+import AutoComplete, { usePlacesWidget } from "react-google-autocomplete";
 
 export async function createTournament(tournament) {
   console.log("calling create tournament");
+
   try {
     const response = await fetch("/api/tournament/createTournament", {
       method: "POST",
@@ -45,29 +56,39 @@ export default function createTournamentForm(props) {
   const [cityError, setCityError] = useState(false);
   const [stateError, setStateError] = useState(false);
   const [addressError, setAddressError] = useState(false);
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [country, setCountry] = useState("");
 
   const typeInputRef = useRef();
   const nameInputRef = useRef();
-  const cityInputRef = useRef();
-  const stateInputRef = useRef();
-  const addressInputRef = useRef();
+  const startDateInputRef = useRef();
+  const endDateInputRef = useRef();
+
+  const apiKey = "AIzaSyCAYE5-Fmphnv8AAb1xaCuHROniinZxyrI";
 
   async function handleFormSubmit() {
     console.log("Submit form and make api call");
     console.log("Krissy boo");
 
-    if (nameError || cityError || stateError || addressError) {
+    if (city === "" || country === "") {
       return;
     }
 
     const tournament = {
       name: nameInputRef.current.value,
-      city: cityInputRef.current.value,
-      state: stateInputRef.current.value,
-      address: addressInputRef.current.value,
+      city: city,
+      state: state,
+      address: address,
+      country: country,
       type: typeInputRef.current.value,
-      startDate: tournamentStartDate["$d"],
-      endDate: tournamentEndDate["$d"]
+      startDate: tournamentStartDate
+        ? tournamentStartDate["$d"]
+        : new Date(startDateInputRef.current.value),
+      endDate: tournamentEndDate
+        ? tournamentEndDate["$d"]
+        : new Date(endDateInputRef.current.value),
     };
 
     console.log(tournament);
@@ -84,10 +105,10 @@ export default function createTournamentForm(props) {
     }
   }
 
-  function cityInputHandler() {
+  function cityInputHandler(place) {
     console.log("changed value");
-    console.log(cityInputRef.current.value);
-    if (cityInputRef.current && cityInputRef.current.value === "") {
+    console.log(place);
+    if (place && place === "") {
       setCityError(true);
     } else {
       setCityError(false);
@@ -104,13 +125,31 @@ export default function createTournamentForm(props) {
     }
   }
 
-  function addressInputHandler() {
+  function addressInputHandler(_, value) {
     console.log("changed address value");
-    console.log(addressInputRef.current.value);
-    if (addressInputRef.current && addressInputRef.current.value === "") {
-      setAddressError(true);
+    console.log(value);
+
+    if (value.components && value.components.street_number) {
+      const address =
+        value.components.street_number[0].long_name +
+        " " +
+        value.components.route[0].long_name;
+      const city = value.components.political[0].long_name;
+      const state = value.components.political[2].long_name;
+      const country = value.components.political[3].long_name;
+      setAddress(address);
+      setCity(city);
+      setState(state);
+      setCountry(country);
+    } else if (value.components) {
+      const city = value.components.political[0].long_name;
+      const state = value.components.political[2].long_name;
+      const country = value.components.political[3].long_name;
+      setCity(city);
+      setState(state);
+      setCountry(country);
     } else {
-      setAddressError(false);
+      // do nothing
     }
   }
 
@@ -121,6 +160,11 @@ export default function createTournamentForm(props) {
   return (
     <Fragment>
       <Title>Create Tournament</Title>
+
+      {/* <AutoComplete
+        apiKey={apiKey}
+        onPlaceSelected={(place) => console.log(place)}
+      /> */}
 
       <StyledFormElement>
         <Control>
@@ -139,58 +183,12 @@ export default function createTournamentForm(props) {
       </StyledFormElement>
       <StyledFormElement>
         <Control>
-          <ControlLabel>City</ControlLabel>
-          <TextField
-            id="outlined-basic"
-            onChange={cityInputHandler}
-            variant="outlined"
-            inputRef={cityInputRef}
-            fullWidth
-            error={cityError}
-            //helperText={emailError ? "Email cannot be empty" : " "}
-            label="Enter Tournament City"
-          />
-        </Control>
-      </StyledFormElement>
-      <StyledFormElement>
-        <Control>
-          <ControlLabel>State</ControlLabel>
-          <TextField
-            id="outlined-basic"
-            onChange={stateInputHandler}
-            variant="outlined"
-            inputRef={stateInputRef}
-            fullWidth
-            error={stateError}
-            //helperText={emailError ? "Email cannot be empty" : " "}
-            label="Enter Tournament State"
-          />
-        </Control>
-      </StyledFormElement>
-
-      <StyledFormElement action="/api/form" method="post">
-        <Control>
-          <ControlLabel>Address</ControlLabel>
-          <TextField
-            id="outlined-basic"
-            onChange={addressInputHandler}
-            variant="outlined"
-            inputRef={addressInputRef}
-            fullWidth
-            error={addressError}
-            //helperText={emailError ? "Email cannot be empty" : " "}
-            label="Enter Tournament Address"
-          />
-        </Control>
-      </StyledFormElement>
-
-      <StyledFormElement>
-        <Control>
           <ControlLabel>Start Date</ControlLabel>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               label="Tournament Start Date"
               value={tournamentStartDate}
+              inputRef={startDateInputRef}
               onChange={(newValue) => {
                 setTournamentStartDate(newValue);
               }}
@@ -199,7 +197,6 @@ export default function createTournamentForm(props) {
           </LocalizationProvider>
         </Control>
       </StyledFormElement>
-
       <StyledFormElement>
         <Control>
           <ControlLabel>End Date</ControlLabel>
@@ -207,6 +204,7 @@ export default function createTournamentForm(props) {
             <DatePicker
               label="Tournament End Date"
               value={tournamentEndDate}
+              inputRef={endDateInputRef}
               onChange={(newValue) => {
                 setTournamentEndDate(newValue);
               }}
@@ -215,7 +213,17 @@ export default function createTournamentForm(props) {
           </LocalizationProvider>
         </Control>
       </StyledFormElement>
-
+      <StyledFormElement>
+        <Control>
+          <ControlLabel>Location</ControlLabel>
+          <MyAddressAutocomplete
+            apiKey={apiKey}
+            label="Address or City"
+            fields={["geometry"]} // fields will always contain address_components and formatted_address, no need to repeat them
+            onChange={addressInputHandler}
+          />
+        </Control>
+      </StyledFormElement>
       <StyledFormElement>
         <Controls>
           <Control>
@@ -228,7 +236,6 @@ export default function createTournamentForm(props) {
           </Control>
         </Controls>
       </StyledFormElement>
-
       <SubmitButtonContainer>
         <FormButton onClick={handleFormSubmit}>Submit</FormButton>
       </SubmitButtonContainer>
