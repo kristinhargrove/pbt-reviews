@@ -1,8 +1,6 @@
-import styled from "styled-components";
-import { useContext, useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function viewTournaments() {
-  const [refetchItems, setRefetchItems] = useState(false);
 
   const pbServiceUrl = process.env.pbServiceUrl;
 
