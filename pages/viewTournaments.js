@@ -1,6 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import TournamentsList from "../components/tournaments/TournamentsList";
+import Tournament from "../components/tournaments/Tournament";
 
 export default function viewTournaments() {
+  const [tournamentItems, setTournamentItems] = useState([]);
 
   const pbServiceUrl = process.env.pbServiceUrl;
 
@@ -12,9 +15,18 @@ export default function viewTournaments() {
 
       console.log("got to tournaments");
       console.log(tournaments);
+
+      setTournamentItems(tournaments);
     }
     fetchData();
   }, []);
 
-  return <div>TEST</div>;
+  return (
+  <div>
+    <h1>Tournaments</h1>
+    <TournamentsList 
+      items={tournamentItems} 
+    />
+  </div>
+  );
 }
