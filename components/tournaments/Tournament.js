@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
-
 export default function Tournament(props) {
-  const { name, state } = props;
-
+  const { name, type, address, state } = props;
   // const exploreLink = `/${type}/${id}`;
 
   // Change the image to instead be the bounty reward amount with a dark background and light text
@@ -11,14 +9,16 @@ export default function Tournament(props) {
   return (
     <Item>
       <Content>
-        <h3>{name}</h3>
+          <h3>{name}</h3>
+          <h5>{address}</h5>
+          <h5>{type}</h5>
+          <h5>{state}</h5>
       </Content>
     </Item>
   );
 }
 
 const Item = styled.li`
-  
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 1px 12px 2px rgba(0, 0, 0, 0.2);
@@ -42,7 +42,9 @@ const Item = styled.li`
 const Content = styled.div`
   width: 100%;
 
-  text-align: center;
+  text-align: right;
+
+  justify-content: center;  
 
   @media (min-width: 768px) {
     width: 90%;
