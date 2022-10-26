@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from 'next/link';
 import Tournament from "./Tournament";
 
 export default function TournamentsList(props) {
@@ -10,6 +11,9 @@ export default function TournamentsList(props) {
         items.map((tournament) => (
           <Tournament
             name= {tournament.name}
+            address = {tournament.address}
+            type = {tournament.type}
+            state = {tournament.state}
           />
         ))}
     </List>
