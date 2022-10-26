@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import TournamentsList from "../components/tournaments/TournamentsList";
-import Tournament from "../components/tournaments/Tournament";
 
 export default function viewTournaments() {
   const [tournamentItems, setTournamentItems] = useState([]);
@@ -22,11 +21,9 @@ export default function viewTournaments() {
   }, []);
 
   return (
-  <div>
-    <h1>Tournaments</h1>
-    <TournamentsList 
-      items={tournamentItems} 
-    />
-  </div>
+    <div>
+      <h1>Tournaments</h1>
+      <TournamentsList items={tournamentItems} />
+    </div>
   );
 }

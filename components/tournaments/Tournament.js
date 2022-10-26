@@ -9,10 +9,10 @@ export default function Tournament(props) {
   return (
     <Item>
       <Content>
-          <h3>{name}</h3>
-          <h5>{address}</h5>
-          <h5>{type}</h5>
-          <h5>{state}</h5>
+        <h3>{name}</h3>
+        <h5>{address}</h5>
+        <h5>{type}</h5>
+        <h5>{state}</h5>
       </Content>
     </Item>
   );
@@ -44,7 +44,7 @@ const Content = styled.div`
 
   text-align: right;
 
-  justify-content: center;  
+  justify-content: center;
 
   @media (min-width: 768px) {
     width: 90%;

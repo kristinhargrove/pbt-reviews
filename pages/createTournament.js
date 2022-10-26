@@ -21,9 +21,6 @@ const MyAddressAutocomplete = dynamic(
   }
 );
 
-//import AddressAutocomplete from "mui-address-autocomplete";
-import AutoComplete, { usePlacesWidget } from "react-google-autocomplete";
-
 export async function createTournament(tournament) {
   console.log("calling create tournament");
 
